@@ -36,12 +36,16 @@ public:
 #endif
 
 protected:
-
+	CPoint P0;
+	CPoint P1;
 // 生成的消息映射函数
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 };
-
+ 
 #ifndef _DEBUG  // MFCBasicView.cpp 中的调试版本
 inline CMFCBasicDoc* CMFCBasicView::GetDocument() const
    { return reinterpret_cast<CMFCBasicDoc*>(m_pDocument); }

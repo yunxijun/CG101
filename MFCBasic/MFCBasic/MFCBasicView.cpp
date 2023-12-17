@@ -19,7 +19,7 @@
 
 
 // CMFCBasicView
-
+					
 IMPLEMENT_DYNCREATE(CMFCBasicView, CView)
 
 BEGIN_MESSAGE_MAP(CMFCBasicView, CView)
@@ -27,6 +27,8 @@ BEGIN_MESSAGE_MAP(CMFCBasicView, CView)
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
 END_MESSAGE_MAP()
 
 // CMFCBasicView 构造/析构
@@ -103,3 +105,29 @@ CMFCBasicDoc* CMFCBasicView::GetDocument() const // 非调试版本是内联的
 
 
 // CMFCBasicView 消息处理程序
+
+
+void CMFCBasicView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	P0 = point;
+	CView::OnLButtonDown(nFlags, point);
+}
+
+
+void CMFCBasicView::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	CDC* pDC = GetDC();
+	CPen pen(PS_SOLID, 5, RGB(255, 0, 0));
+	pDC->SelectObject(&pen);		
+	P1 = point;
+/*	pDC->MoveTo(P0);
+	pDC->LineTo(P1);	*/	
+	//pDC->Rectangle(P0.x, P0.y, P1.x, P1.y);
+	CBrush brush(RGB(0, 255, 0));
+	pDC->SelectObject(&brush);
+	pDC->Ellipse(P0.x, P0.y, P1.x, P1.y);
+	ReleaseDC(pDC);
+	CView::OnLButtonUp(nFlags, point);
+}
